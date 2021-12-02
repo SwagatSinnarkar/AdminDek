@@ -70,7 +70,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementation\AccountService.cs" />
     <Compile Include="Implementation\UsersService.cs" />
+    <Compile Include="Interface\IAccount.cs" />
     <Compile Include="Interface\IUsers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

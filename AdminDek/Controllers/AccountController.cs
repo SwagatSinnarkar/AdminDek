@@ -6,6 +6,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using AdminDek.Models;
+using Domain.Models;
+using Services.Interface;
 
 namespace AdminDek.Controllers
 {
@@ -14,6 +16,7 @@ namespace AdminDek.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private readonly IAccount _accountObj;
 
         public AccountController()
         {
@@ -154,8 +157,23 @@ namespace AdminDek.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
+                    ApplicationUser _applicationUser = new ApplicationUser();
+                    AccountModel _accountModel = new AccountModel();
+                    _accountModel.Id = _applicationUser.Id;
+                    _accountModel.Email = _applicationUser.Email;
+                    _accountModel.EmailConfirmed = _applicationUser.EmailConfirmed;
+                    _accountModel.PasswordHash = _applicationUser.PasswordHash;
+                    _accountModel.SecurityStamp = _applicationUser.SecurityStamp;
+                    _accountModel.PhoneNumber = _applicationUser.PhoneNumber;
+                    _accountModel.PhoneNumberConfirmed = _applicationUser.PhoneNumberConfirmed;
+                    _accountModel.TwoFactorEnabled = _applicationUser.TwoFactorEnabled;
+                    _accountModel.LockoutEndDateUtc = _applicationUser.LockoutEndDateUtc;
+                    _accountModel.LockoutEnabled = _applicationUser.LockoutEnabled;
+                    _accountModel.AccessFailedCount = _applicationUser.AccessFailedCount;
+                    _accountModel.UserName = _applicationUser.Id;
+
+                    var res = await _accountObj.SaveAdminData(_accountModel);
+
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     await UserManager.SendEmailAsync(user.Id, "Confirm your account with Admindek", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
