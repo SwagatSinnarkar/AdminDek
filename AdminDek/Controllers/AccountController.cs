@@ -172,7 +172,7 @@ namespace AdminDek.Controllers
                     _accountModel.AccessFailedCount = _applicationUser.AccessFailedCount;
                     _accountModel.UserName = _applicationUser.Id;
 
-                    var res = await _accountObj.SaveAdminData(_accountModel);
+                   await _accountObj.SaveAdminData(_accountModel); 
 
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);

@@ -1,4 +1,6 @@
 using AdminDek.Controllers;
+using Services.Implementation;
+using Services.Interface;
 using System.Web.Mvc;
 using Unity;
 using Unity.Injection;
@@ -17,6 +19,7 @@ namespace AdminDek
 
             // e.g. container.RegisterType<ITestService, TestService>();
             container.RegisterType<AccountController>(new InjectionConstructor());
+            container.RegisterType<IAccount, AccountService>();
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }

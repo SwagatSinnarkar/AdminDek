@@ -1,0 +1,252 @@
+﻿@using Microsoft.AspNet.Identity;
+@model IEnumerable<Domain.Models.AccountModel>
+@{
+    ViewBag.Title = "UserProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var userId = User.Identity.GetUserId();
+}
+<link rel="icon" href="~/AdmindekFiles/assets/images/favicon.ico" type="image/x-icon">
+@*Google font*@
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Quicksand:500,700" rel="stylesheet">
+@*Required Fremwork*@
+<link rel="stylesheet" type="text/css" href="~/AdmindekFiles/bower_components/bootstrap/css/bootstrap.min.css">
+@*waves.css*@
+<link rel="stylesheet" href="~/AdmindekFiles/assets/pages/waves/css/waves.min.css" type="text/css" media="all">
+@*feather icon*@
+<link rel="stylesheet" type="text/css" href="~/AdmindekFiles/assets/icon/feather/css/feather.css">
+@*sweet alert framework*@
+<link rel="stylesheet" type="text/css" href="~/AdmindekFiles/bower_components/sweetalert/css/sweetalert.css">
+@*themify-icons line icon*@
+<link rel="stylesheet" type="text/css" href="~/AdmindekFiles/assets/icon/themify-icons/themify-icons.css">
+@*ico font*@
+<link rel="stylesheet" type="text/css" href="~/AdmindekFiles/assets/icon/icofont/css/icofont.css">
+@*Font Awesome*@
+<link rel="stylesheet" type="text/css" href="~/AdmindekFiles/assets/icon/font-awesome/css/font-awesome.min.css">
+@*animation nifty modal window effects css*@
+<link rel="stylesheet" type="text/css" href="~/AdmindekFiles/assets/css/component.css">
+@*Style.css*@
+<link rel="stylesheet" type="text/css" href="~/AdmindekFiles/assets/css/style.css">
+<link rel="stylesheet" type="text/css" href="~/AdmindekFiles/assets/css/pages.css">
+
+<div class="container">
+    <div class="main-body">
+        <a class="text-center"><h2>User Profile</h2></a>
+        <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                            <div class="mt-3">
+                                <h4></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card mb-3">
+                    @foreach (var item in Model)
+                    {
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Email</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    @item.Email
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Mobile</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    +91 - @item.Mobile
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Address</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <button type="button" class="btn btn-primary updateAdminModel waves-effect" data-id="@userId">Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="animation-model">
+    <div class="modal fade" id="updateAdminModelD" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <input type="hidden" id="hiddenId">
+            <div class="md-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Update your Profile.</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-primary">
+                                <label class="float-label control-label" for="txtMobile">Mobile</label>
+                                <input type="text" name="txtMobile" id="txtMobile" maxlength="10" class="form-control form-control-primary" placeholder="Enter Mobile" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-t-0">
+                        <div class="col-md-12">
+                            <div id="divResponseCustomizationMsg">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger waves-effect md-close" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary waves-effect">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*<div class="animation-model">
+        <div class="md-modal md-effect-1" id="modal-1" data-backdrop="static" data-keyboard="false">
+            <input type="hidden" id="hiddenId">
+            <div class="md-content">
+                <h3>Update your Profile.</h3>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group form-primary">
+                            <label class="float-label control-label" for="txtEmail">Email</label>
+                            <input type="text" name="txtEmail" id="txtEmail" class="form-control form-control-primary" placeholder="Enter Email">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group form-primary">
+                            <label class="float-label control-label" for="txtMobile">Mobile</label>
+                            <input type="text" name="txtMobile" id="txtMobile" class="form-control form-control-primary" placeholder="Enter Mobile">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m-t-0">
+                    <div class="col-md-12">
+                        <div id="divResponseCustomizationMsg">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div>
+                    <button type="button" class="btn btn-danger waves-effect md-close">Close</button>
+                    <input type="button" class="btn btn-primary waves-effect" value="Save" onclick="updateAdmin();">
+                </div>
+            </div>
+        </div>
+        <div class="md-overlay"></div>
+    </div>*@
+
+
+<script type="text/javascript" src="~/AdmindekFiles/bower_components/jquery/js/jquery.min.js"></script>
+<!-- waves js -->
+<script src="~/AdmindekFiles/assets/pages/waves/js/waves.min.js"></script>
+<!-- modernizr js -->
+<script type="text/javascript" src="~/AdmindekFiles/bower_components/modernizr/js/modernizr.js"></script>
+<script type="text/javascript" src="~/AdmindekFiles/bower_components/modernizr/js/css-scrollbars.js"></script>
+<!-- sweet alert js -->
+<script type="text/javascript" src="~/AdmindekFiles/bower_components/sweetalert/js/sweetalert.min.js"></script>
+<script type="text/javascript" src="~/AdmindekFiles/assets/js/modal.js"></script>
+<!-- modalEffects js nifty modal window effects -->
+<script src="~/AdmindekFiles/assets/js/classie.js"></script>
+<script type="text/javascript" src="~/AdmindekFiles/assets/js/modalEffects.js"></script>
+<script src="~/AdmindekFiles/assets/js/pcoded.min.js"></script>
+<script src="~/AdmindekFiles/assets/js/vertical/vertical-layout.min.js"></script>
+<script src="~/AdmindekFiles/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<!-- Custom js -->
+<script type="text/javascript" src="~/AdmindekFiles/assets/js/script.js"></script>
+
+<script type="text/javascript">
+
+
+    $(document).on("click", ".updateAdminModel", function () {
+
+        var Id = $(this).attr("data-id");
+        $("#hiddenId").val(Id)
+        $('#updateAdminModelD').modal();
+    });
+
+
+
+    var updateAdmin = function () {
+
+        let txtAdminId = $("#hiddenId").val();
+        let txtEmail = $("#txtEmail").val();
+        let txtMobile = $("#txtMobile").val();
+        //let txtCountry = $("#txtCountry").val();
+        //let txtState = $("#txtState").val();
+        //let txtCity = $("#txtCity").val();
+        //, 'Country': txtCountry, 'State': txtState, 'City': txtCity
+
+        if (txtEmail == null) {
+
+        }
+
+
+        $.ajax({
+            url: '/Home/UpdateAdmin',
+            type: 'POST',
+            data: JSON.stringify({ 'Id': txtAdminId, 'Email': txtEmail, 'Mobile': txtMobile }),
+            contentType: "application/json; charset=utf-8",
+            success: function (response) {
+                if (response.IsError == false) {
+                    $("#divResponseCustomizationMsg").html("<div class='alert background-success alert-dismissable'><a class='close' data-dismiss='alert' aria-label='close'>×</a><strong><i class='fa fa- check' aria-hidden='true'></i></strong>" + response.Message + "</div>");
+                    setTimeout(function () {
+                        window.location.href = "/Home/Dashboard";
+                    }, 2500);
+                }
+                else {
+                    $("#divResponseCustomizationMsg").html("<div class='alert background-danger alert-dismissable'><a class='close' data-dismiss='alert' aria-label='close'>×</a><strong><i class='fa fa-times-circle' aria-hidden='true'></i></strong> " + response.Message + "</div>");
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+</script>

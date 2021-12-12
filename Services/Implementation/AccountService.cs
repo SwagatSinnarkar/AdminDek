@@ -25,5 +25,21 @@ namespace Services.Implementation
                 return _accountRepository.SaveAdminData(_accountModel);
             });
         }
+
+        public Task<int> UpdateAdminData(AccountModel _accountModel)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                return _accountRepository.UpdateAdminData(_accountModel);
+            });
+        }
+
+        public Task<IEnumerable<AccountModel>> GetAdminUserData(string tableName, string Id)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                return _accountRepository.GetAdminUserData(tableName, Id);
+            });
+        }
     }
 }

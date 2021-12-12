@@ -2,6 +2,7 @@
 using Domain.Models;
 using Domain.Repositories.Connection;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -54,6 +55,39 @@ namespace Domain.Repositories
                     }
                 }
             }
+        }
+
+        public int UpdateAdminData(AccountModel _accountModel)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (var tran = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        var param = new DynamicParameters();
+                        param.Add("@Id", _accountModel.Id);
+                        param.Add("@Email", _accountModel.Email);
+                        param.Add("@Mobile", _accountModel.Mobile);
+                        var id = connection.Query<int>("UpdateAdminData", param, commandType: CommandType.StoredProcedure, transaction: tran).SingleOrDefault();
+                        tran.Commit();
+                        return id;
+                    }
+                    catch (Exception e)
+                    {
+                        tran.Rollback();
+                        throw e;
+                    }
+                }
+            }
+        }
+
+        public IEnumerable<AccountModel> GetAdminUserData(string tableName, string Id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+                return connection.Query<AccountModel>(string.Format("SELECT * from {0} where Id='{1}'", tableName, Id)).ToList();
         }
     }
 }
