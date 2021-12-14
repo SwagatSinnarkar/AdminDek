@@ -21,6 +21,7 @@ namespace Domain.Repositories
             this.connectionString = conn;
         }
 
+        //Regsiter
         public int SaveAdminData(AccountModel _accountModel)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -57,6 +58,7 @@ namespace Domain.Repositories
             }
         }
 
+        //Update Admin
         public int UpdateAdminData(AccountModel _accountModel)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -68,9 +70,13 @@ namespace Domain.Repositories
                     try
                     {
                         var param = new DynamicParameters();
-                        param.Add("@Id", _accountModel.Id);
-                        param.Add("@Email", _accountModel.Email);
+                        param.Add("@AccountId", _accountModel.AccountId);
+                        param.Add("@Id", _accountModel.Id);                          
+                        param.Add("@Email", _accountModel.Email);                          
                         param.Add("@Mobile", _accountModel.Mobile);
+                        param.Add("@City", _accountModel.City);
+                        param.Add("@State", _accountModel.State);
+                        param.Add("@Country", _accountModel.Country);
                         var id = connection.Query<int>("UpdateAdminData", param, commandType: CommandType.StoredProcedure, transaction: tran).SingleOrDefault();
                         tran.Commit();
                         return id;
@@ -84,6 +90,8 @@ namespace Domain.Repositories
             }
         }
 
+
+        //Get Admin
         public IEnumerable<AccountModel> GetAdminUserData(string tableName, string Id)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))

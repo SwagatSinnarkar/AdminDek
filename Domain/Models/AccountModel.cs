@@ -17,5 +17,12 @@ namespace Domain.Models
         public int AccessFailedCount { get; set; }
         public string UserName { get; set; }
         public string Mobile { get; set; }
+
+        //Location
+        public string City { get; set; }
+        public string State { get; set; }
+        public string Country { get; set; }
+
+        public int AccountId { get; set; }
     }
 }

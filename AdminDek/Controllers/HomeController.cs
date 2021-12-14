@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using AdminDek.Models;
+using Domain.Models;
 using Microsoft.AspNet.Identity;
 using Services.Interface;
 using System;
@@ -44,12 +45,15 @@ namespace AdminDek.Controllers
 
         //User Profile View
         [HttpGet]
-        public async Task<ActionResult> UserProfile()
+        public async Task<ActionResult> UserProfile(CommonModel commonModel)
         {
             var Id = User.Identity.GetUserId();
             var TableName = "UpdateAdminTbl";
             var list = await _accountObj.GetAdminUserData(TableName, Id);
-            return View(list);
+            commonModel.accountModel = list;
+            _ = new ASPNETMVCEntities();
+            ViewBag.CountryList = new SelectList(GetCountryList(), "Cid", "Cname");
+            return View(commonModel);
         }
 
         [HttpPost]
@@ -60,10 +64,10 @@ namespace AdminDek.Controllers
                 bool isError = true;
                 var message = string.Empty;
                 var res = await _accountObj.UpdateAdminData(_accountModel);
-                if (res > 0)
+                if (res >= 0)
                 {
                     isError = false;
-                    message = "Successfully Updated";
+                    message = "Profile Updated Successfully.";
                 }
                 else
                 {
@@ -84,6 +88,30 @@ namespace AdminDek.Controllers
                     Message = e.Message
                 }, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        //Location List 
+        public List<Country> GetCountryList()
+        {
+            ASPNETMVCEntities aspnetmvcEntities = new ASPNETMVCEntities();
+            List<Country> countries = aspnetmvcEntities.Countries.ToList();
+            return countries;
+        }
+
+        public ActionResult GetStateList(int Cid)
+        {
+            ASPNETMVCEntities aspnetmvcEntities = new ASPNETMVCEntities();
+            List<State> selectList = aspnetmvcEntities.States.Where(x => x.Cid == Cid).ToList();
+            ViewBag.StateList = new SelectList(selectList, "Sid", "Sname");
+            return PartialView("_DisplayStates");
+        }
+
+        public ActionResult GetCityList(int Sid)
+        {
+            ASPNETMVCEntities aspnetmvcEntities = new ASPNETMVCEntities();
+            List<City> selectList = aspnetmvcEntities.Cities.Where(x => x.Sid == Sid).ToList();
+            ViewBag.CityList = new SelectList(selectList, "Cityid", "Cityname");
+            return PartialView("_DisplayCities");
         }
     }
 }
