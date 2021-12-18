@@ -130,9 +130,24 @@
                             </div>
                         </div>
                         <div class="col-sm-4">
-                            <div class="form-group form-primary">
-                                <span class="float-label control-label">            </span>
+                            <div class="form-group form-primary">                              
                                 @Html.DropDownListFor(x => x.locationModel.Cityid, new SelectList(""), "Select City", new { @class = "form-control", @id = "Cityid", @name = "Cityid", @style = "margin-top: 34px;" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group form-primary">
+                                <label class="float-label control-label">Photo</label>
+                                <input type="file" name="img" id="img" accept="image/*" onchange="previewFile(this);" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="d-flex flex-column align-items-center text-center" style="margin-left: 25px;">
+                            <img id="previewImg" class="rounded-circle" width="150">
+                            <div class="mt-3">
+                                <h4></h4>
                             </div>
                         </div>
                     </div>
@@ -169,10 +184,6 @@
 <!-- Custom js -->
 <script type="text/javascript" src="~/AdmindekFiles/assets/js/script.js"></script>
 
-
-@*Select Dropdown Effect*@
-<link href="~/ddPlugin/dist/css/nice-select2.css" rel="stylesheet" />
-<script src="~/ddPlugin/dist/js/nice-select2.js"></script>
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -229,15 +240,24 @@
         let txtCountry = $("#Cid option:selected").text();
         let txtState = $("#Sid option:selected").text();
         let txtCity = $("#Cityid option:selected").text();
+             
+        if (txtMobile == "" || txtMobile == null &&
+            txtCountry == "" || txtCountry == null || txtCountry == "Select Country" &&
+            txtState == "" || txtState == null || txtState == "Select State" &&
+            txtCity == "" || txtCity == null || txtCity == "Select City") {
+            $("#divResponseCustomizationMsg").html("<div class='alert background-danger alert-dismissable'><a class='close' data-dismiss='alert' aria-label='close'>×</a><strong><i class='fa fa-times-circle' aria-hidden='true'></i></strong>      " + "Something went wrong" + "</div>");
+            return false;
+        }
+
 
         $.ajax({
             url: '/Home/UpdateAdmin',
             type: 'POST',
-            data: JSON.stringify({ 'AccountId': txtAccountId, 'Id': txtAdminId, 'Email': txtEmail, 'Mobile': txtMobile, 'Country': txtCountry, 'State': txtState, 'City': txtCity }),
+            data: JSON.stringify({ 'AccountId': txtAccountId, 'Id': txtAdminId, 'Email': txtEmail, 'Mobile': txtMobile, 'Country': txtCountry, 'State': txtState, 'City': txtCity}),
             contentType: "application/json; charset=utf-8",
             success: function (response) {
                 if (response.IsError == false) {
-                    $("#divResponseCustomizationMsg").html("<div class='alert background-success alert-dismissable'><a class='close' data-dismiss='alert' aria-label='close'>×</a><strong><i class='fa fa-check' aria-hidden='true'></i></strong>   " +   response.Message + "</div>");
+                    $("#divResponseCustomizationMsg").html("<div class='alert background-success alert-dismissable'><a class='close' data-dismiss='alert' aria-label='close'>×</a><strong><i class='fa fa-check' aria-hidden='true'></i></strong>   " + response.Message + "</div>");
                     setTimeout(function () {
                         $("#updateAdminModelD .close").click();
                         window.location.reload();
@@ -255,5 +275,16 @@
                 console.log(err);
             }
         });
+    }
+
+    function previewFile() {
+        var file = $("input[type=file]").get(0).files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                $("#previewImg").attr("src", reader.result);
+            }
+            reader.readAsDataURL(file);
+        }
     }
 </script>

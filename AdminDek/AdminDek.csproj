@@ -1203,6 +1203,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Image\blank-person.png" />
     <Content Include="Image\email.png" />
     <Content Include="Image\emailCheck.jpg" />
     <Content Include="Models\ASPNETModel.Context.tt">

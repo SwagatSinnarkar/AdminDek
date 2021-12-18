@@ -125,7 +125,7 @@
                             <li class="user-profile header-notification">
                                 <div class="dropdown-primary dropdown">
                                     <div class="dropdown-toggle" data-toggle="dropdown">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="img-radius" alt="User-Profile-Image">
+                                        <img src="~/Image/blank-person.png" class="img-radius" alt="User-Profile-Image">
                                         @if (Request.IsAuthenticated)
                                         {
                                             <span>@Html.ActionLink("Hi " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })</span>
