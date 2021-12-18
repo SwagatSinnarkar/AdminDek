@@ -61,6 +61,8 @@ namespace AdminDek.Controllers
         {
             try
             {
+                var x = _accountModel.ImageFile;
+
                 bool isError = true;
                 var message = string.Empty;
                 var res = await _accountObj.UpdateAdminData(_accountModel);

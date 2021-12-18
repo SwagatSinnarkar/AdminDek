@@ -130,7 +130,7 @@
                             </div>
                         </div>
                         <div class="col-sm-4">
-                            <div class="form-group form-primary">                              
+                            <div class="form-group form-primary">
                                 @Html.DropDownListFor(x => x.locationModel.Cityid, new SelectList(""), "Select City", new { @class = "form-control", @id = "Cityid", @name = "Cityid", @style = "margin-top: 34px;" })
                             </div>
                         </div>
@@ -233,14 +233,30 @@
 
     var updateAdmin = function () {
 
-        let txtAccountId = $("#hiddenaccountId").val();
-        let txtAdminId = $("#hiddenId").val();
-        let txtEmail = $("#hiddenEmail").val();
+        //let txtAccountId = $("#hiddenaccountId").val();
+        //let txtAdminId = $("#hiddenId").val();
+        //let txtEmail = $("#hiddenEmail").val();
         let txtMobile = $("#txtMobile").val();
         let txtCountry = $("#Cid option:selected").text();
         let txtState = $("#Sid option:selected").text();
         let txtCity = $("#Cityid option:selected").text();
-             
+
+        var formData = new FormData();
+
+        var totalFiles = document.getElementById("imgFile").files.length;
+        for (var i = 0; i < totalFiles; i++) {
+            var file = document.getElementById("imgFile").files[i];
+            formData.append("ImageFile", file);
+        }
+        formData.append('AccountId', $("#hiddenaccountId").val());
+        formData.append('Id', $("#hiddenId").val());
+        formData.append('Email', $("#hiddenEmail").val());
+        formData.append('Mobile', $("#txtMobile").val());
+        formData.append('Country', $("#Cid option:selected").text());
+        formData.append('State', $("#Sid option:selected").text());
+        formData.append('City', $("#Cityid option:selected").text());
+
+
         if (txtMobile == "" || txtMobile == null &&
             txtCountry == "" || txtCountry == null || txtCountry == "Select Country" &&
             txtState == "" || txtState == null || txtState == "Select State" &&
@@ -253,8 +269,11 @@
         $.ajax({
             url: '/Home/UpdateAdmin',
             type: 'POST',
-            data: JSON.stringify({ 'AccountId': txtAccountId, 'Id': txtAdminId, 'Email': txtEmail, 'Mobile': txtMobile, 'Country': txtCountry, 'State': txtState, 'City': txtCity}),
-            contentType: "application/json; charset=utf-8",
+            /* data: JSON.stringify({ 'AccountId': txtAccountId, 'Id': txtAdminId, 'Email': txtEmail, 'Mobile': txtMobile, 'Country': txtCountry, 'State': txtState, 'City': txtCity }),*/
+            /*contentType: "application/json; charset=utf-8",*/
+            data: formData,
+            processData: false,
+            contentType: false,
             success: function (response) {
                 if (response.IsError == false) {
                     $("#divResponseCustomizationMsg").html("<div class='alert background-success alert-dismissable'><a class='close' data-dismiss='alert' aria-label='close'>×</a><strong><i class='fa fa-check' aria-hidden='true'></i></strong>   " + response.Message + "</div>");

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 
 namespace Domain.Models
 {
@@ -24,5 +25,8 @@ namespace Domain.Models
         public string Country { get; set; }
 
         public int AccountId { get; set; }
+
+        //Image
+        public HttpPostedFileWrapper ImageFile { get; set; }
     }
 }
