@@ -9,5 +9,6 @@ namespace Services.Interface
         Task<int> SaveAdminData(AccountModel _accountModel);
         Task<int> UpdateAdminData(AccountModel _accountModel);
         Task<IEnumerable<AccountModel>> GetAdminUserData(string tableName, string Id);
+        AccountModel GetUserIdOnEmail(string userEmail);
     }
 }

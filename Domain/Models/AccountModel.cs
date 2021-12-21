@@ -28,5 +28,8 @@ namespace Domain.Models
 
         //Image
         public HttpPostedFileWrapper ImageFile { get; set; }
+        public byte[] ImageByte { get; set; }
+        public string ImagePath { get; set; }
+        public string ImageName { get; set; }
     }
 }

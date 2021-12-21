@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity;
 using Services.Interface;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -61,7 +62,19 @@ namespace AdminDek.Controllers
         {
             try
             {
-                var x = _accountModel.ImageFile;
+                var file = _accountModel.ImageFile;
+                string newFileName = Path.GetFileNameWithoutExtension(file.FileName) + Path.GetExtension(file.FileName);
+                var imgPath = Server.MapPath("~/ProfileImages/" + newFileName);
+                file.SaveAs(imgPath);
+
+
+                byte[] imageBytes = null;
+
+                BinaryReader rdr = new BinaryReader(file.InputStream);
+                imageBytes = rdr.ReadBytes(file.ContentLength);
+                _accountModel.ImageByte = imageBytes;
+                _accountModel.ImagePath = "~/ProfileImages/" + newFileName;
+                _accountModel.ImageName = Path.GetFileNameWithoutExtension(file.FileName);
 
                 bool isError = true;
                 var message = string.Empty;
@@ -114,6 +127,11 @@ namespace AdminDek.Controllers
             List<City> selectList = aspnetmvcEntities.Cities.Where(x => x.Sid == Sid).ToList();
             ViewBag.CityList = new SelectList(selectList, "Cityid", "Cityname");
             return PartialView("_DisplayCities");
+        }
+
+        public ActionResult Dashboard()
+        {
+            return View();
         }
     }
 }

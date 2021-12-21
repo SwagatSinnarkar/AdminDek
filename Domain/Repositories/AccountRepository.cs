@@ -71,12 +71,15 @@ namespace Domain.Repositories
                     {
                         var param = new DynamicParameters();
                         param.Add("@AccountId", _accountModel.AccountId);
-                        param.Add("@Id", _accountModel.Id);                          
-                        param.Add("@Email", _accountModel.Email);                          
+                        param.Add("@Id", _accountModel.Id);
+                        param.Add("@Email", _accountModel.Email);
                         param.Add("@Mobile", _accountModel.Mobile);
                         param.Add("@City", _accountModel.City);
                         param.Add("@State", _accountModel.State);
                         param.Add("@Country", _accountModel.Country);
+                        param.Add("@ImageName", _accountModel.ImageName);
+                        param.Add("@ImageByte", _accountModel.ImageByte);
+                        param.Add("@ImagePath", _accountModel.ImagePath);
                         var id = connection.Query<int>("UpdateAdminData", param, commandType: CommandType.StoredProcedure, transaction: tran).SingleOrDefault();
                         tran.Commit();
                         return id;
@@ -96,6 +99,14 @@ namespace Domain.Repositories
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
                 return connection.Query<AccountModel>(string.Format("SELECT * from {0} where Id='{1}'", tableName, Id)).ToList();
+        }
+
+
+        //GetUserIdOnEmail
+        public AccountModel GetUserIdOnEmail(string userEmail)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+                return connection.Query<AccountModel>(string.Format("select * from UpdateAdminTbl where Email = '{0}'", userEmail)).FirstOrDefault();
         }
     }
 }

@@ -22,10 +22,11 @@ namespace AdminDek.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IAccount account)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            _accountObj = account;
         }
 
         public ApplicationSignInManager SignInManager
@@ -71,6 +72,13 @@ namespace AdminDek.Controllers
             if (!ModelState.IsValid)
             {
                 return View(model);
+            }
+
+            AdminDBEntities adminDBEntities = new AdminDBEntities();
+            var list = adminDBEntities.UpdateAdminTbls.ToList();
+            foreach (var item in list)
+            {
+                Session["list"] = item.ImagePath;
             }
 
             // This doesn't count login failures towards account lockout

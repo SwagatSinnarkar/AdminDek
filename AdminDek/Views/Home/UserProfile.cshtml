@@ -30,25 +30,26 @@
 <link rel="stylesheet" type="text/css" href="~/AdmindekFiles/assets/css/pages.css">
 
 <div class="container">
-    <div class="main-body">
-        <a class="text-center"><h2>User Profile</h2></a>
-        <div class="row gutters-sm">
-            <div class="col-md-4 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex flex-column align-items-center text-center">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
-                            <div class="mt-3">
-                                <h4></h4>
+    @foreach (var item in Model.accountModel)
+    {
+        <div class="main-body">
+            <a class="text-center"><h2>User Profile</h2></a>
+            <div class="row gutters-sm">
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center">
+                                <img src="@Url.Content(item.ImagePath)" class="rounded-circle" width="150">
+                                <div class="mt-3">
+                                    <h4></h4>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-8">
-                <div class="card mb-3">
-                    @foreach (var item in Model.accountModel)
-                    {
+                <div class="col-md-8">
+                    <div class="card mb-3">
+
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-3">
@@ -83,11 +84,12 @@
                                 </div>
                             </div>
                         </div>
-                    }
+
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
 </div>
 
 <!-- Modal -->
@@ -144,7 +146,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="d-flex flex-column align-items-center text-center" style="margin-left: 25px;">
+                        <div class="d-flex flex-column align-items-center text-center" style="margin-left: 10px;">
                             <img id="previewImg" class="rounded-circle" width="150">
                             <div class="mt-3">
                                 <h4></h4>

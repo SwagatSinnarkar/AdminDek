@@ -41,5 +41,10 @@ namespace Services.Implementation
                 return _accountRepository.GetAdminUserData(tableName, Id);
             });
         }
+
+        public AccountModel GetUserIdOnEmail(string userEmail)
+        {
+            return _accountRepository.GetUserIdOnEmail(userEmail);
+        }
     }
 }

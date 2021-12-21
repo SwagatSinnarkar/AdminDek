@@ -60,6 +60,8 @@ namespace AdminDek.Models
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
+
+        public string ImagePath { get; set; }
     }
 
     public class RegisterViewModel
