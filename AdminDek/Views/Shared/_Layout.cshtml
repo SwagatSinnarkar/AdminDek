@@ -1,4 +1,11 @@
 ﻿@using Microsoft.AspNet.Identity
+@using Domain.Repositories;
+@{
+    AccountRepository _accountObj = new AccountRepository();
+    var Id = User.Identity.GetUserId();
+    var TableName = "UpdateAdminTbl";
+    var data = _accountObj.GetAdminUserData(TableName, Id);
+}   
 
 <!DOCTYPE html>
 <html lang="en">
@@ -128,19 +135,22 @@
                                     <div class="dropdown-toggle" data-toggle="dropdown">
 
 
-                                        @{
+                                        @*@{
 
-                                                if (Session["list"] != null)
-                                                {
-                                                    string path = Session["list"].ToString();
-                                                    <img src="@Url.Content(path)" class="img-radius" alt="User-Profile-Image">
-                                            }                                           
-                                        }
+                                            if (Session["list"] != null)
+                                            {
+                                                string path = Session["list"].ToString();
+                                                <img src="@Url.Content(path)" class="img-radius" alt="User-Profile-Image">
 
-                                        @if (Request.IsAuthenticated)
+                                            }
+                                        }*@
+
+                                        @foreach (var item in data)
                                         {
-                                            <span>@Html.ActionLink("Hi " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })</span>
+                                            <img src="@Url.Content(item.ImagePath)" class="img-radius" alt="User-Profile-Image">
+                                            <span>Hey, @item.Firstname</span>
                                         }
+
 
 
                                         <i class="feather icon-chevron-down"></i>

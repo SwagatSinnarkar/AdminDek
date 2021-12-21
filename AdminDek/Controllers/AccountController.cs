@@ -74,13 +74,6 @@ namespace AdminDek.Controllers
                 return View(model);
             }
 
-            AdminDBEntities adminDBEntities = new AdminDBEntities();
-            var list = adminDBEntities.UpdateAdminTbls.ToList();
-            foreach (var item in list)
-            {
-                Session["list"] = item.ImagePath;
-            }
-
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false );

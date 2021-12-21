@@ -72,6 +72,8 @@ namespace Domain.Repositories
                         var param = new DynamicParameters();
                         param.Add("@AccountId", _accountModel.AccountId);
                         param.Add("@Id", _accountModel.Id);
+                        param.Add("@Firstname", _accountModel.Firstname);
+                        param.Add("@Lastname", _accountModel.Lastname);
                         param.Add("@Email", _accountModel.Email);
                         param.Add("@Mobile", _accountModel.Mobile);
                         param.Add("@City", _accountModel.City);

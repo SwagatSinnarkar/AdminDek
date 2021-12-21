@@ -28,7 +28,6 @@
 @*Style.css*@
 <link rel="stylesheet" type="text/css" href="~/AdmindekFiles/assets/css/style.css">
 <link rel="stylesheet" type="text/css" href="~/AdmindekFiles/assets/css/pages.css">
-
 <div class="container">
     @foreach (var item in Model.accountModel)
     {
@@ -41,7 +40,7 @@
                             <div class="d-flex flex-column align-items-center text-center">
                                 <img src="@Url.Content(item.ImagePath)" class="rounded-circle" width="150">
                                 <div class="mt-3">
-                                    <h4></h4>
+                                    <h4>@item.Firstname @item.Lastname</h4>
                                 </div>
                             </div>
                         </div>
@@ -49,7 +48,6 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card mb-3">
-
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-3">
@@ -80,7 +78,7 @@
                             <hr>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <button type="button" class="btn btn-primary updateAdminModel waves-effect" data-id="@userId" data-email="@item.Email" data-accountid="@item.AccountId" data-mobile="@item.Mobile">Edit</button>
+                                    <button type="button" class="btn btn-primary updateAdminModel waves-effect" data-id="@userId" data-email="@item.Email" data-accountid="@item.AccountId" data-mobile="@item.Mobile" data-firstname="@item.Firstname" data-lastname="@item.Lastname" data-country="@item.Country" data-state="@item.State" data-city="@item.City">Edit</button>
                                 </div>
                             </div>
                         </div>
@@ -108,17 +106,26 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <div class="form-group form-primary">
-                                <label class="float-label control-label" for="txtMobile">Mobile</label>
-                                <input type="text" name="txtMobile" id="txtMobile" maxlength="10" class="form-control form-control-primary" placeholder="Enter Mobile" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
+                                <label class="float-label control-label" for="txtMobile">First Name</label><span class="text-c-red"> *</span>
+                                <input type="text" name="txtFirstName" id="txtFirstName" class="form-control" placeholder="Enter your first name.." />
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group form-primary">
+                                <label class="float-label control-label" for="txtMobile">Last Name</label><span class="text-c-red"> *</span>
+                                <input type="text" name="txtLastName" id="txtLastName" class="form-control" placeholder="Enter your last name.." />
                             </div>
                         </div>
                     </div>
                     <div class="row">
+
+                    </div>
+                    <div class="row">
                         <div class="col-sm-4">
                             <div class="form-group form-primary">
-                                <label class="float-label control-label" for="txtLocation">Location</label>
+                                <label class="float-label control-label" for="txtLocation">Location</label><span class="text-c-red"> *</span>
                                 @if (ViewBag.CountryList != null)
                                 {
                                     @Html.DropDownListFor(x => x.locationModel.Cid, ViewBag.CountryList as SelectList, "Select Country", new { @class = "form-control", @id = "Cid", @name = "Cid" })
@@ -138,10 +145,16 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="form-group form-primary">
-                                <label class="float-label control-label">Photo</label>
+                                <label class="float-label control-label">Photo</label><span class="text-c-red"> *</span>
                                 <input type="file" name="imgFile" id="imgFile" accept="image/*" onchange="previewFile(this);" />
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group form-primary">
+                                <label class="float-label control-label" for="txtMobile">Mobile</label><span class="text-c-red"> *</span>
+                                <input type="text" name="txtMobile" id="txtMobile" maxlength="10" class="form-control" placeholder="Enter Mobile" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
                             </div>
                         </div>
                     </div>
@@ -188,7 +201,7 @@
 
 <script type="text/javascript">
 
-    $(document).ready(function () {
+    $(document).ready(function () {      
 
         $("#Cid").change(function () {
             var countryId = $(this).val();
@@ -216,8 +229,8 @@
                 }
             })
         })
+    
     })
-
 
     $(document).on("click", ".updateAdminModel", function () {
 
@@ -225,11 +238,21 @@
         var Email = $(this).attr("data-email");
         var AccountId = $(this).attr("data-accountid");
         var Mobile = $(this).attr("data-mobile");
+        var FirstName = $(this).attr("data-firstname");
+        var LastName = $(this).attr("data-lastname");
+        //var Country = $(this).attr("data-country");
+        //var State = $(this).attr("data-state");
+        //var City = $(this).attr("data-city");
 
         $("#hiddenId").val(Id)
         $("#hiddenEmail").val(Email)
         $("#hiddenaccountId").val(AccountId)
         $("#txtMobile").val(Mobile);
+        $("#txtFirstName").val(FirstName);
+        $("#txtLastName").val(LastName);
+        //$("#Cid option:selected").text(Country);
+        //$("#Sid option:selected").text(State);
+        //$("#Cityid option:selected").text(City);
         $('#updateAdminModelD').modal();
     });
 
@@ -238,6 +261,8 @@
         //let txtAccountId = $("#hiddenaccountId").val();
         //let txtAdminId = $("#hiddenId").val();
         //let txtEmail = $("#hiddenEmail").val();
+        let txtFirstName = $("#txtFirstName").val();
+        let txtLastName = $("#txtLastName").val();
         let txtMobile = $("#txtMobile").val();
         let txtCountry = $("#Cid option:selected").text();
         let txtState = $("#Sid option:selected").text();
@@ -253,13 +278,17 @@
         formData.append('AccountId', $("#hiddenaccountId").val());
         formData.append('Id', $("#hiddenId").val());
         formData.append('Email', $("#hiddenEmail").val());
+        formData.append('Firstname', $("#txtFirstName").val());
+        formData.append('Lastname', $("#txtLastName").val());
         formData.append('Mobile', $("#txtMobile").val());
         formData.append('Country', $("#Cid option:selected").text());
         formData.append('State', $("#Sid option:selected").text());
         formData.append('City', $("#Cityid option:selected").text());
 
 
-        if (txtMobile == "" || txtMobile == null &&
+        if (txtFirstName == "" || txtFirstName == null &&
+            txtLastName == "" || txtLastName == null &&
+            txtMobile == "" || txtMobile == null &&
             txtCountry == "" || txtCountry == null || txtCountry == "Select Country" &&
             txtState == "" || txtState == null || txtState == "Select State" &&
             txtCity == "" || txtCity == null || txtCity == "Select City") {
