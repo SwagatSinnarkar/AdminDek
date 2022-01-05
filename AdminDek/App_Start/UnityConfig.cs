@@ -19,6 +19,7 @@ namespace AdminDek
 
             // e.g. container.RegisterType<ITestService, TestService>();
             container.RegisterType<AccountController>(new InjectionConstructor());
+            container.RegisterType<ManageController>(new InjectionConstructor());
             container.RegisterType<IAccount, AccountService>();
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

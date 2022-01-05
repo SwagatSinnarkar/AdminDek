@@ -5,7 +5,7 @@
     var Id = User.Identity.GetUserId();
     var TableName = "UpdateAdminTbl";
     var data = _accountObj.GetAdminUserData(TableName, Id);
-}   
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -137,13 +137,13 @@
 
                                         @*@{
 
-                                            if (Session["list"] != null)
-                                            {
-                                                string path = Session["list"].ToString();
-                                                <img src="@Url.Content(path)" class="img-radius" alt="User-Profile-Image">
+                                                if (Session["list"] != null)
+                                                {
+                                                    string path = Session["list"].ToString();
+                                                    <img src="@Url.Content(path)" class="img-radius" alt="User-Profile-Image">
 
-                                            }
-                                        }*@
+                                                }
+                                            }*@
 
                                         @foreach (var item in data)
                                         {
@@ -162,8 +162,14 @@
 
                                             </a>
                                         </li>
-                                        <li>
 
+                                        <li>
+                                            <a href="/Manage/Index">
+                                                <i class="feather icon-settings"></i>Manage
+                                            </a>
+                                        </li>
+
+                                        <li>
                                             @if (Request.IsAuthenticated)
                                             {
                                                 using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
@@ -1419,10 +1425,10 @@
                             <div class="row align-items-end">
                                 <div class="col-lg-8">
                                     <div class="page-header-title">
-                                        <i class="feather icon-watch bg-c-blue"></i>
+                                        @*<i class="feather icon-watch bg-c-blue"></i>*@
                                         <div class="d-inline">
-                                            <h5>Admindek</h5>
-                                            <span>Matters You..</span>
+                                            @*<h5>Admindek</h5>
+                                            <span>Matters You..</span>*@
                                         </div>
                                     </div>
                                 </div>
